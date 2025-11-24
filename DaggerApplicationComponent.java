@@ -47,27 +47,14 @@ import ru.psbank.bookkeeping.ui.BookkeepingViewModel_Factory;
 import ru.psbank.bookkeeping.usecase.GetTransactionsUseCase;
 import ru.psbank.bookkeeping.usecase.GetTransactionsUseCase_Factory;
 import ru.psbank.currencyoperations.CurrencyOperationsStarterImpl;
-import ru.psbank.currencyoperations.di.CurrencyOperationsInternalModule_ContributeCreateOperationFragment;
-import ru.psbank.currencyoperations.di.CurrencyOperationsInternalModule_ContributeOperationsListFragment;
-import ru.psbank.currencyoperations.interactor.CurrencyOperationInteractor;
-import ru.psbank.currencyoperations.interactor.CurrencyOperationInteractor_Factory;
+import ru.psbank.currencyoperations.di.CreateOperationFragmentDependencies;
+import ru.psbank.currencyoperations.di.OperationsListFragmentDependencies;
 import ru.psbank.currencyoperations.repository.CurrencyOperationRepository;
 import ru.psbank.currencyoperations.repository.FakeCurrencyOperationRepository_Factory;
-import ru.psbank.currencyoperations.ui.CreateOperationFragment;
-import ru.psbank.currencyoperations.ui.CreateOperationFragment_MembersInjector;
-import ru.psbank.currencyoperations.ui.OperationCreationViewModel;
-import ru.psbank.currencyoperations.ui.OperationCreationViewModel_Factory;
-import ru.psbank.currencyoperations.ui.OperationsListFragment;
-import ru.psbank.currencyoperations.ui.OperationsListFragment_MembersInjector;
-import ru.psbank.currencyoperations.ui.OperationsListViewModel;
-import ru.psbank.currencyoperations.ui.OperationsListViewModel_Factory;
-import ru.psbank.currencyoperations.usecase.CreateOperationUseCase;
-import ru.psbank.currencyoperations.usecase.CreateOperationUseCase_Factory;
-import ru.psbank.currencyoperations.usecase.GetOperationsUseCase;
-import ru.psbank.currencyoperations.usecase.GetOperationsUseCase_Factory;
 import ru.psbank.mainscreen.di.MainScreenInternalModule_ContributeMainScreenFragment;
 import ru.psbank.mainscreen.ui.MainScreenFragment;
 import ru.psbank.mainscreen.ui.MainScreenFragment_MembersInjector;
+import ru.psbank.utls.ComponentDependencies;
 
 @DaggerGenerated
 @Generated(
@@ -164,38 +151,6 @@ public final class DaggerApplicationComponent {
         TerminalFragment instance) {
       Preconditions.checkNotNull(instance);
       return new TerminalFragmentSubcomponentImpl(applicationComponentImpl, instance);
-    }
-  }
-
-  private static final class OperationsListFragmentSubcomponentFactory implements CurrencyOperationsInternalModule_ContributeOperationsListFragment.OperationsListFragmentSubcomponent.Factory {
-    private final ApplicationComponentImpl applicationComponentImpl;
-
-    private OperationsListFragmentSubcomponentFactory(
-        ApplicationComponentImpl applicationComponentImpl) {
-      this.applicationComponentImpl = applicationComponentImpl;
-    }
-
-    @Override
-    public CurrencyOperationsInternalModule_ContributeOperationsListFragment.OperationsListFragmentSubcomponent create(
-        OperationsListFragment instance) {
-      Preconditions.checkNotNull(instance);
-      return new OperationsListFragmentSubcomponentImpl(applicationComponentImpl, instance);
-    }
-  }
-
-  private static final class CreateOperationFragmentSubcomponentFactory implements CurrencyOperationsInternalModule_ContributeCreateOperationFragment.CreateOperationFragmentSubcomponent.Factory {
-    private final ApplicationComponentImpl applicationComponentImpl;
-
-    private CreateOperationFragmentSubcomponentFactory(
-        ApplicationComponentImpl applicationComponentImpl) {
-      this.applicationComponentImpl = applicationComponentImpl;
-    }
-
-    @Override
-    public CurrencyOperationsInternalModule_ContributeCreateOperationFragment.CreateOperationFragmentSubcomponent create(
-        CreateOperationFragment instance) {
-      Preconditions.checkNotNull(instance);
-      return new CreateOperationFragmentSubcomponentImpl(applicationComponentImpl, instance);
     }
   }
 
@@ -340,91 +295,10 @@ public final class DaggerApplicationComponent {
     }
   }
 
-  private static final class OperationsListFragmentSubcomponentImpl implements CurrencyOperationsInternalModule_ContributeOperationsListFragment.OperationsListFragmentSubcomponent {
-    private final ApplicationComponentImpl applicationComponentImpl;
-
-    private final OperationsListFragmentSubcomponentImpl operationsListFragmentSubcomponentImpl = this;
-
-    Provider<GetOperationsUseCase> getOperationsUseCaseProvider;
-
-    Provider<CreateOperationUseCase> createOperationUseCaseProvider;
-
-    Provider<CurrencyOperationInteractor> currencyOperationInteractorProvider;
-
-    Provider<OperationsListViewModel> operationsListViewModelProvider;
-
-    OperationsListFragmentSubcomponentImpl(ApplicationComponentImpl applicationComponentImpl,
-        OperationsListFragment instanceParam) {
-      this.applicationComponentImpl = applicationComponentImpl;
-
-      initialize(instanceParam);
-
-    }
-
-    @SuppressWarnings("unchecked")
-    private void initialize(final OperationsListFragment instanceParam) {
-      this.getOperationsUseCaseProvider = GetOperationsUseCase_Factory.create(applicationComponentImpl.bindCurrencyOperationRepositoryProvider);
-      this.createOperationUseCaseProvider = CreateOperationUseCase_Factory.create(applicationComponentImpl.bindCurrencyOperationRepositoryProvider);
-      this.currencyOperationInteractorProvider = CurrencyOperationInteractor_Factory.create(getOperationsUseCaseProvider, createOperationUseCaseProvider);
-      this.operationsListViewModelProvider = OperationsListViewModel_Factory.create(currencyOperationInteractorProvider);
-    }
-
-    @Override
-    public void inject(OperationsListFragment instance) {
-      injectOperationsListFragment(instance);
-    }
-
-    private OperationsListFragment injectOperationsListFragment(OperationsListFragment instance) {
-      DaggerFragment_MembersInjector.injectAndroidInjector(instance, applicationComponentImpl.dispatchingAndroidInjectorOfObject());
-      OperationsListFragment_MembersInjector.injectViewModelProvider(instance, operationsListViewModelProvider);
-      return instance;
-    }
-  }
-
-  private static final class CreateOperationFragmentSubcomponentImpl implements CurrencyOperationsInternalModule_ContributeCreateOperationFragment.CreateOperationFragmentSubcomponent {
-    private final ApplicationComponentImpl applicationComponentImpl;
-
-    private final CreateOperationFragmentSubcomponentImpl createOperationFragmentSubcomponentImpl = this;
-
-    Provider<GetOperationsUseCase> getOperationsUseCaseProvider;
-
-    Provider<CreateOperationUseCase> createOperationUseCaseProvider;
-
-    Provider<CurrencyOperationInteractor> currencyOperationInteractorProvider;
-
-    Provider<OperationCreationViewModel> operationCreationViewModelProvider;
-
-    CreateOperationFragmentSubcomponentImpl(ApplicationComponentImpl applicationComponentImpl,
-        CreateOperationFragment instanceParam) {
-      this.applicationComponentImpl = applicationComponentImpl;
-
-      initialize(instanceParam);
-
-    }
-
-    @SuppressWarnings("unchecked")
-    private void initialize(final CreateOperationFragment instanceParam) {
-      this.getOperationsUseCaseProvider = GetOperationsUseCase_Factory.create(applicationComponentImpl.bindCurrencyOperationRepositoryProvider);
-      this.createOperationUseCaseProvider = CreateOperationUseCase_Factory.create(applicationComponentImpl.bindCurrencyOperationRepositoryProvider);
-      this.currencyOperationInteractorProvider = CurrencyOperationInteractor_Factory.create(getOperationsUseCaseProvider, createOperationUseCaseProvider);
-      this.operationCreationViewModelProvider = OperationCreationViewModel_Factory.create(currencyOperationInteractorProvider);
-    }
-
-    @Override
-    public void inject(CreateOperationFragment instance) {
-      injectCreateOperationFragment(instance);
-    }
-
-    private CreateOperationFragment injectCreateOperationFragment(
-        CreateOperationFragment instance) {
-      DaggerFragment_MembersInjector.injectAndroidInjector(instance, applicationComponentImpl.dispatchingAndroidInjectorOfObject());
-      CreateOperationFragment_MembersInjector.injectViewModelProvider(instance, operationCreationViewModelProvider);
-      return instance;
-    }
-  }
-
   private static final class ApplicationComponentImpl implements ApplicationComponent {
     private final ApplicationComponentImpl applicationComponentImpl = this;
+
+    Provider<CurrencyOperationRepository> bindCurrencyOperationRepositoryProvider;
 
     Provider<AcquiringInternalModule_ContributeAcquiringFragment.AcquiringFragmentSubcomponent.Factory> acquiringFragmentSubcomponentFactoryProvider;
 
@@ -434,12 +308,6 @@ public final class DaggerApplicationComponent {
 
     Provider<AcquiringOfficeInternalModule_ContributeTerminalFragment.TerminalFragmentSubcomponent.Factory> terminalFragmentSubcomponentFactoryProvider;
 
-    Provider<CurrencyOperationsInternalModule_ContributeOperationsListFragment.OperationsListFragmentSubcomponent.Factory> operationsListFragmentSubcomponentFactoryProvider;
-
-    Provider<CurrencyOperationsInternalModule_ContributeCreateOperationFragment.CreateOperationFragmentSubcomponent.Factory> createOperationFragmentSubcomponentFactoryProvider;
-
-    Provider<CurrencyOperationRepository> bindCurrencyOperationRepositoryProvider;
-
     ApplicationComponentImpl() {
 
       initialize();
@@ -448,7 +316,7 @@ public final class DaggerApplicationComponent {
 
     Map<Class<?>, javax.inject.Provider<dagger.android.AndroidInjector.Factory<?>>> mapOfClassOfAndProviderOfAndroidInjectorFactoryOf(
         ) {
-      return MapBuilder.<Class<?>, javax.inject.Provider<dagger.android.AndroidInjector.Factory<?>>>newMapBuilder(6).put(AcquiringFragment.class, ((Provider) (acquiringFragmentSubcomponentFactoryProvider))).put(MainScreenFragment.class, ((Provider) (mainScreenFragmentSubcomponentFactoryProvider))).put(BookkeepingFragment.class, ((Provider) (bookkeepingFragmentSubcomponentFactoryProvider))).put(TerminalFragment.class, ((Provider) (terminalFragmentSubcomponentFactoryProvider))).put(OperationsListFragment.class, ((Provider) (operationsListFragmentSubcomponentFactoryProvider))).put(CreateOperationFragment.class, ((Provider) (createOperationFragmentSubcomponentFactoryProvider))).build();
+      return MapBuilder.<Class<?>, javax.inject.Provider<dagger.android.AndroidInjector.Factory<?>>>newMapBuilder(4).put(AcquiringFragment.class, ((Provider) (acquiringFragmentSubcomponentFactoryProvider))).put(MainScreenFragment.class, ((Provider) (mainScreenFragmentSubcomponentFactoryProvider))).put(BookkeepingFragment.class, ((Provider) (bookkeepingFragmentSubcomponentFactoryProvider))).put(TerminalFragment.class, ((Provider) (terminalFragmentSubcomponentFactoryProvider))).build();
     }
 
     DispatchingAndroidInjector<Object> dispatchingAndroidInjectorOfObject() {
@@ -459,8 +327,14 @@ public final class DaggerApplicationComponent {
       return DispatchingAndroidInjector_Factory.newInstance(mapOfClassOfAndProviderOfAndroidInjectorFactoryOf(), Collections.<String, javax.inject.Provider<dagger.android.AndroidInjector.Factory<?>>>emptyMap());
     }
 
+    Map<Class<? extends ComponentDependencies>, ComponentDependencies> mapOfClassOfAndComponentDependencies(
+        ) {
+      return MapBuilder.<Class<? extends ComponentDependencies>, ComponentDependencies>newMapBuilder(2).put(CreateOperationFragmentDependencies.class, this).put(OperationsListFragmentDependencies.class, this).build();
+    }
+
     @SuppressWarnings("unchecked")
     private void initialize() {
+      this.bindCurrencyOperationRepositoryProvider = DoubleCheck.provider((Provider) (FakeCurrencyOperationRepository_Factory.create()));
       this.acquiringFragmentSubcomponentFactoryProvider = new Provider<AcquiringInternalModule_ContributeAcquiringFragment.AcquiringFragmentSubcomponent.Factory>() {
         @Override
         public AcquiringInternalModule_ContributeAcquiringFragment.AcquiringFragmentSubcomponent.Factory get(
@@ -489,21 +363,11 @@ public final class DaggerApplicationComponent {
           return new TerminalFragmentSubcomponentFactory(applicationComponentImpl);
         }
       };
-      this.operationsListFragmentSubcomponentFactoryProvider = new Provider<CurrencyOperationsInternalModule_ContributeOperationsListFragment.OperationsListFragmentSubcomponent.Factory>() {
-        @Override
-        public CurrencyOperationsInternalModule_ContributeOperationsListFragment.OperationsListFragmentSubcomponent.Factory get(
-            ) {
-          return new OperationsListFragmentSubcomponentFactory(applicationComponentImpl);
-        }
-      };
-      this.createOperationFragmentSubcomponentFactoryProvider = new Provider<CurrencyOperationsInternalModule_ContributeCreateOperationFragment.CreateOperationFragmentSubcomponent.Factory>() {
-        @Override
-        public CurrencyOperationsInternalModule_ContributeCreateOperationFragment.CreateOperationFragmentSubcomponent.Factory get(
-            ) {
-          return new CreateOperationFragmentSubcomponentFactory(applicationComponentImpl);
-        }
-      };
-      this.bindCurrencyOperationRepositoryProvider = DoubleCheck.provider((Provider) (FakeCurrencyOperationRepository_Factory.create()));
+    }
+
+    @Override
+    public CurrencyOperationRepository getCurrencyOperationRepository() {
+      return bindCurrencyOperationRepositoryProvider.get();
     }
 
     @Override
@@ -514,8 +378,8 @@ public final class DaggerApplicationComponent {
     private App injectApp(App instance) {
       DaggerApplication_MembersInjector.injectAndroidInjector(instance, dispatchingAndroidInjectorOfObject());
       App_MembersInjector.injectDispatchingAndroidInjector(instance, dispatchingAndroidInjectorOfDaggerApplication());
+      App_MembersInjector.injectDependencies(instance, mapOfClassOfAndComponentDependencies());
       return instance;
     }
   }
 }
-
